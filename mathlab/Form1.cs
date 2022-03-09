@@ -52,6 +52,7 @@ namespace mathlab
             {
                 MessageBox.Show(e.Message);
             }
+            listBox1.Items.Add($"Количество шагов: {iter}");
         }
 
         private void DrawGraph()
@@ -82,7 +83,20 @@ namespace mathlab
                     g.DrawLine(pen, new Point(xleft, height / 2 - 2), new Point(xleft, height / 2 + 2));
                     g.DrawLine(pen, new Point(width / 2 - 2, xleft), new Point(width / 2 + 2, xleft));
 
-                    g.DrawString(Math.Round(fx).ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(xleft - 5, height / 2 + 2));
+
+                    if (fx < 0)
+                    {
+                        fx += 1;
+                    }
+
+                    if (Math.Round(fx) != 0)
+                    {
+                        g.DrawString(Math.Round(fx).ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(xleft - 5, height / 2 + 2));
+                        g.DrawString(Math.Round(-fx).ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(height / 2 - 15, xleft - 5));
+                    }
+                    else g.DrawString(0.ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(xleft - 10, height / 2 + 2));
+
+
                 }
                 try
                 {
