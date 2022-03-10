@@ -18,7 +18,7 @@ namespace mathlab
             double result = 0;
             try
             {
-                result = Math.Pow(x, 3) + 4 * x - 6; //Math.Pow(x, 5) + x + 1; // y = x^5 + x + 1
+                result = Math.Pow(x, 5) + x + 1; // Math.Pow(x, 3) + 4 * x - 6; // // y = x^5 + x + 1
             }
             catch (Exception e)
             {
@@ -83,20 +83,18 @@ namespace mathlab
                     g.DrawLine(pen, new Point(xleft, height / 2 - 2), new Point(xleft, height / 2 + 2));
                     g.DrawLine(pen, new Point(width / 2 - 2, xleft), new Point(width / 2 + 2, xleft));
 
+                    double axys_coords = (double)Math.Round(fx);
 
-                    if (fx < 0)
+                    if (Math.Round(axys_coords) < 0)
                     {
-                        fx += 1;
+                        axys_coords += 1;
                     }
-
-                    if (Math.Round(fx) != 0)
+                    if (Math.Round(axys_coords) == 0) g.DrawString(0.ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(xleft - 10, height / 2 + 2));
+                    else
                     {
-                        g.DrawString(Math.Round(fx).ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(xleft - 5, height / 2 + 2));
-                        g.DrawString(Math.Round(-fx).ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(height / 2 - 15, xleft - 5));
+                        g.DrawString(Math.Round(axys_coords).ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(xleft - 5, height / 2 + 2));
+                        g.DrawString(Math.Round(-axys_coords).ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(height / 2 - 15, xleft - 5));
                     }
-                    else g.DrawString(0.ToString(), new Font("Arial", 6), new SolidBrush(Color.Black), new Point(xleft - 10, height / 2 + 2));
-
-
                 }
                 try
                 {
