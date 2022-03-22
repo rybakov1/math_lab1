@@ -77,7 +77,7 @@ namespace mathlab
 
             for (double fx = -20; fx < 20; fx += 0.01)
             {
-                if (fx - Math.Round(fx) > 0.00000000000001)
+                if (fx - Math.Round(fx) > 0.0000000000001)
                 {
                     int xleft = (int)fx * 20 + width / 2;
                     g.DrawLine(pen, new Point(xleft, height / 2 - 2), new Point(xleft, height / 2 + 2));
