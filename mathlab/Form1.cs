@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,11 +15,17 @@ namespace mathlab
 
         public double func(double x)
         {
-            //double a = x + Math.Pow(Math.E, x); //. double a = Math.Pow(x, 3) + 2 * x - 7;
             double result = 0;
             try
             {
-                result = Math.Pow(x, 5) + x + 1; // Math.Pow(x, 3) + 4 * x - 6; // // y = x^5 + x + 1
+                if (checkBox1.Checked)
+                {
+                    result = Math.Pow(x + 1, 1.0 / 3.0f);
+                }
+                else
+                {
+                    result = Math.Pow(x, 5) + x + 1; // Math.Pow(x, 3) + 4 * x - 6; // // y = x^5 + x + 1
+                }
             }
             catch (Exception e)
             {
@@ -26,25 +33,59 @@ namespace mathlab
             }
             return result;
         }
+        
+        public int howmuchzeroes() {
+            double mem = err;
+            int iter = 0;
+
+            while (mem != 1)
+            {
+                mem *= 10;
+                iter++;
+            }
+            return iter;
+        }
+
         public void CalculateFirst()
         {
             listBox1.Items.Clear();
             int iter = 0;
             try
             {
-                while (Math.Abs(max - min) >= err)
+                if (checkBox1.Checked)
                 {
-                    iter++;
-                    double x = (min + max) / 2;
-                    listBox1.Items.Add($"ξ= {Math.Round(x, 3)}, min= {Math.Round(min, 3)}, max= {Math.Round(max, 3)}");
+                    int i = 1;
 
-                    if (func(x) * func(min) > 0)
+                    List<double> value = new List<double>();
+                    value.Add(min);
+
+                    listBox1.Items.Add($"ξ= {Math.Round(value[0], howmuchzeroes())}");
+                    do
                     {
-                        min = x;
+                        value.Add(func(value[i - 1]));
+                        listBox1.Items.Add($"ξ= { Math.Round(value[i], howmuchzeroes()) }");
+
+                        i++;
                     }
-                    else
+                    while (Math.Round(value[i - 2], howmuchzeroes()) != Math.Round(value[i - 1], howmuchzeroes()));
+                }
+
+                else
+                {
+                    while (Math.Abs(max - min) >= err)
                     {
-                        max = x;
+                        iter++;
+                        double x = (min + max) / 2;
+                        listBox1.Items.Add($"ξ= {Math.Round(x, 3)}, min= {Math.Round(min, 3)}, max= {Math.Round(max, 3)}");
+
+                        if (func(x) * func(min) > 0)
+                        {
+                            min = x;
+                        }
+                        else
+                        {
+                            max = x;
+                        }
                     }
                 }
             }
@@ -120,7 +161,7 @@ namespace mathlab
             err = (double)numericUpDown3.Value;
 
             CalculateFirst();
-            DrawGraph();
+            //DrawGraph();
         }
     }
 }
