@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace mathlab
+﻿namespace with6._0
 {
     public partial class Form1 : Form
     {
@@ -20,7 +15,7 @@ namespace mathlab
             {
                 if (checkBox1.Checked)
                 {
-                    result = Math.Pow(6 * x - 2, 1.0 / 3.0f);
+                    result = Math.Cbrt(6 * x - 2);
                 }
                 else
                 {
@@ -33,8 +28,9 @@ namespace mathlab
             }
             return result;
         }
-        
-        public int howmuchzeroes() {
+
+        public int howmuchzeroes()
+        {
             double mem = err;
             int iter = 0;
 
@@ -49,32 +45,41 @@ namespace mathlab
         public void CalculateFirst()
         {
             listBox1.Items.Clear();
-            int iter = 0;
+            int steps = 0;
+
             try
             {
                 if (checkBox1.Checked)
                 {
                     int i = 1;
 
-                    List<double> value = new List<double>();
-                    value.Add(min);
+                   List<double> value = new List<double>();
+                   value.Add(min);
 
                     listBox1.Items.Add($"ξ= {Math.Round(value[0], howmuchzeroes())}");
+
+                    double x = min;
+                    double x_old;
+
                     do
                     {
-                        value.Add(func(value[i - 1]));
+                        x_old = x;
+                        x = func(x_old);
+
+                        value.Add(x);
                         listBox1.Items.Add($"ξ= { Math.Round(value[i], howmuchzeroes()) }");
 
                         i++;
+                        steps++;
                     }
-                    while (Math.Round(value[i - 2], howmuchzeroes()) != Math.Round(value[i - 1], howmuchzeroes()));
+                    while (Math.Abs(x - x_old) > err && (x <= max && x >= min));
                 }
 
                 else
                 {
                     while (Math.Abs(max - min) >= err)
                     {
-                        iter++;
+                        steps++;
                         double x = (min + max) / 2;
                         listBox1.Items.Add($"ξ= {Math.Round(x, 3)}, min= {Math.Round(min, 3)}, max= {Math.Round(max, 3)}");
 
@@ -93,7 +98,7 @@ namespace mathlab
             {
                 MessageBox.Show(e.Message);
             }
-            listBox1.Items.Add($"Количество шагов: {iter}");
+            listBox1.Items.Add($"Количество шагов: {steps}");
         }
 
         private void DrawGraph()
@@ -161,7 +166,7 @@ namespace mathlab
             err = (double)numericUpDown3.Value;
 
             CalculateFirst();
-           // DrawGraph();
+            // DrawGraph();
         }
     }
 }
